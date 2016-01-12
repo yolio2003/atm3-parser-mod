@@ -22,7 +22,10 @@ module.exports = function(content, file, conf) {
     makeData()
     makeSCSS(makeSubMod())
 
-
+    // console.log(file.release)
+    // console.log(file.requires)
+    // console.log(file.links)
+    // file.release = false
     return content
 }
 
@@ -104,15 +107,20 @@ var makeSCSS = function(submod) {
 
         lodash.each(v, function(v, k) {
             // console.log(v, k)
-            var deppath = path.resolve(
+            var deppath = path.join(
                 confHash.mod,
+                v,
+                'index.scss'
+            )
+            var joinpath = path.join(
+                confHash.name,
                 v,
                 'index.scss'
             )
 
             if (fs.exists(deppath)) {
                 result.push(
-                    '@import "'+ deppath +'";'
+                    '@import "'+ joinpath +'";'
                 )
             } else {
                 fis.log.info('mod not found', deppath)
